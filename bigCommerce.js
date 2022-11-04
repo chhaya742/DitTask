@@ -62,7 +62,8 @@
 // const port = 3000
 // var axios = require("axios");
 
-module.exports=( method,params,data)=> ({
+
+const productUrl=( method,params,data)=> ({
     method: method,
     url: 'https://api.bigcommerce.com/stores/71ukaf4yd0/v3/catalog/products'+params,
     headers: {
@@ -70,6 +71,27 @@ module.exports=( method,params,data)=> ({
         'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
     },data:data
 });
+
+const categoryUrl=( method,params,data)=> ({
+    method: method,
+    url: `https://api.bigcommerce.com/stores/71ukaf4yd0/v3/catalog/categories${params}`,
+    // params: {'category_id:in': '27'},
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    },data:data
+});
+const categoryDeleteUrl=( method,params,data)=> ({
+    method: method,
+    url: 'https://api.bigcommerce.com/stores/71ukaf4yd0/v3/catalog/trees/categories',
+    params: {'category_id:in': params},
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    },data:data
+});
+
+module.exports=options={productUrl,categoryUrl,categoryDeleteUrl}
 // app.get("/products/List", async (req, res) => {
 //     axios.request(options).then(function (response) {
 //         res.json(response.data.data);
