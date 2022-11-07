@@ -1,6 +1,6 @@
-const {truncate,insert} = require("../../common/query");
-const { getDataById, getAllProduct, createLocal, updateLocal,deleteLocal } = require('../service/product')
-const options=require('../../bigCommerce')
+const { truncate, insert } = require("../../common/query");
+const { getDataById, getAllProduct, createLocal, updateLocal, deleteLocal } = require('../service/product')
+const options = require('../../bigCommerce')
 var axios = require("axios");
 
 //  product CRUD on local
@@ -46,7 +46,7 @@ const getProductsLocal = (req, res) => {
         page_q = 0
         limit_q = 50
     }
-    getAllProduct(page_q,limit_q,term).then((data) => {
+    getAllProduct(page_q, limit_q, term).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -62,8 +62,8 @@ const deleteProductLocal = (req, res) => {
 };
 
 // create bigCommerce Product CRUD
-const getDataFromAPi=(req,res)=>{
-    axios.request(options.productUrl('GET','',[])).then(function (response) {
+const getDataFromAPi = (req, res) => {
+    axios.request(options.productUrl('GET', '', [])).then(function (response) {
         for (i in response.data.data) {
             for (j in response.data.data[i]) {
                 if (typeof (response.data.data[i][j]) == 'object') {
@@ -72,41 +72,41 @@ const getDataFromAPi=(req,res)=>{
                 }
             }
         }
-        truncate('products')
-        insert('products', response.data.data)
-
+        truncate('bigcommerceproduct')
+        insert('bigcommerceproduct', response.data.data)
+        // console.log(response.data.data);
         res.send({ status: true, statusCode: 200, messages: "get successfully", data: response.data })
     }).catch(function (error) {
         // console.error(error);
-        res.send({ status: false, statusCode: 404, messages: error, data:[] })
+        res.send({ status: false, statusCode: 404, messages: error, data: [] })
     });
 
 }
 
 const createProductLive = (req, res) => {
-    axios.request(options.productUrl('POST','',req.body)).then(function (response) {
+    axios.request(options.productUrl('POST', '', req.body)).then(function (response) {
         // console.log(response.data);
-        res.json({ status: true, statusCode: 200, messages: "Created successfully", data:response.data })
+        res.json({ status: true, statusCode: 200, messages: "Created successfully", data: response.data })
     }).catch(function (error) {
-        // console.log(error);
+        console.log(error);
         res.json(error.message)
     });
 };
 
 
 const getProductByIdLive = (req, res) => {
-    axios.request(options.productUrl('GET',`/${req.body.id}`,[])).then(function (response) {
+    axios.request(options.productUrl('GET', `/${req.params.id}`, [])).then(function (response) {
         // console.log(response.data);
         res.send({ status: true, statusCode: 200, messages: "get successfully", data: response.data })
     }).catch(function (error) {
         console.error(error);
-        res.send({ status: false, statusCode: 404, messages: error, data:[] })
+        res.send({ status: false, statusCode: 404, messages: error, data: [] })
     });
 }
 
 
-const deleteProductLive= (req, res) => {
-    axios.request(options.productUrl('DELETE',`?id:in=${req.body.id}`,[])).then(function (response) {
+const deleteProductLive = (req, res) => {
+    axios.request(options.productUrl('DELETE', `?id:in=${req.body.id}`, [])).then(function (response) {
         res.send({ status: true, statusCode: 200, messages: "delete successfully", data: response.data })
         // console.log(response.data);
     }).catch(function (error) {
@@ -117,18 +117,16 @@ const deleteProductLive= (req, res) => {
 }
 
 const updateProductLive = (req, res) => {
-    axios.request(options.productUrl('PUT',`/${req.body.id}`,req.body)).then(function (response) {
+    axios.request(options.productUrl('PUT',`/${req.params.id}`,req.body)).then(function (response) {
         res.send({ status: true, statusCode: 200, messages: "update successfully", data: response.data })
-        // console.log(response.data);
     }).catch(function (error) {
-        // console.error(error);
+        console.log(error)
         res.send(error)
+
     });
 
 }
 
-
-const bigCProductCtrl={createProductLive, deleteProductLive, getProductByIdLive,getDataFromAPi,updateProductLive}
-const local={ getProductsLocal,updateProductLocal,createProductLocal,getProductByIdLocal,deleteProductLocal}
-module.exports ={bigCProductCtrl,local}
- 
+const bigCProductCtrl = { createProductLive, deleteProductLive, getProductByIdLive, getDataFromAPi, updateProductLive }
+const local = { getProductsLocal, updateProductLocal, createProductLocal, getProductByIdLocal, deleteProductLocal }
+module.exports = { bigCProductCtrl, local }

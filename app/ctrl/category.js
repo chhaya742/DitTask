@@ -5,6 +5,46 @@ var axios = require("axios");
 const { response } = require("express");
 
 
+//  Category CRUD on local
+const getCategoryByIdLocal = (req, res) => {
+
+  getDataById(req.body.id).then((data) => {
+      res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
+  }).catch((err) => {
+      res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+  })
+};
+
+const createCategoryLocal = (req, res) => {
+  // console.log(req.body);
+  createLocal(req.body).then((data) => {
+      res.json({ status: true, statusCode: 200, messages: "Created successfully", data: data })
+  }).catch((err) => {
+      res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+  })
+};
+
+const updateCategoryLocal = (req, res) => {
+  // console.log(req.body);
+  updateLocal(req.body).then((data) => {
+      res.json({ status: true, statusCode: 200, messages: "updated successfully", data: data })
+  }).catch((err) => {
+      res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+  })
+}
+
+const deleteCategoryLocal = (req, res) => {
+  deleteLocal(req.body.id).then((data) => {
+      res.json({ status: true, statusCode: 200, messages: "delete successfully", data: data })
+  }).catch((err) => {
+      res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+  })
+};
+
+
+
+// create bigCommerce Category CRUD
+
 const getCategoryFromAPi=(req,res)=>{
     axios.request(options.categoryUrl('GET','',[])).then(function (response) {
     //   console.log(response.data.data);
@@ -62,7 +102,6 @@ const createCategoryLive = (req, res) => {
     });
 };
 
-
 const updateCategoryLive = (req, res) => {
 
 axios.request(options.categoryUrl('PUT','',req.body)).then(function (response) {
@@ -86,4 +125,5 @@ const deleteCategoryLive= (req, res) => {
 
 }
 const bigCCategoryCtrl={getCategoryFromAPi,createCategoryLive,deleteCategoryLive,updateCategoryLive,getCategoryByIdLive}
-module.exports ={bigCCategoryCtrl}
+const Categorylocal={ createCategoryLocal,updateCategoryLocal,getCategoryByIdLocal,deleteCategoryLocal}
+module.exports ={bigCCategoryCtrl,Categorylocal}

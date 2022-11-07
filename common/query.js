@@ -31,7 +31,9 @@ const update = async (tableName, userData,id) => {
 
 
 const Delete = async (tableName,id) => {
-    const data= await knex(tableName).where(id).delete()
+    const data= await knex(tableName).where({'id':id}).delete()
+    // .toString()
+    // console.log(data);
     return data
 
 }
