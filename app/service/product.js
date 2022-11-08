@@ -1,20 +1,12 @@
 
-const {getbyId, findAll,insert,update,Delete} = require("../../common/query");
+const query= require("../../common/query");
 
-// Insert
-// const studentService={
-    // registerStudent:registerStudent,
-    // updateStudent:updateStudent,
-    // getStudentData:getStudentData,
-    // getStudentDataById:getStudentDataById
-
-// }
 const  createLocal = async (userData) => {
-    return insert('products', userData);
+    return query.insert('bigcommerceproduct', userData);
 }
 // Update
 const  updateLocal = async (userData) => {
-    return update('products', userData,{id:userData.id});
+    return query.update('bigcommerceproduct', userData,{id:userData.id});
 }
 // GetAll
 const  getAllProduct = async (page_q,limit_q,term) => {
@@ -24,21 +16,23 @@ const  getAllProduct = async (page_q,limit_q,term) => {
         term:term
     }
     // console.log(params);
-    return findAll('products',params);
+    return query.findAll('bigcommerceproduct',params);
 }
 
 // Get By Id
 const  getDataById = async (id) => {
-    return getbyId('products',{id:id});
+    return query.getbyId('bigcommerceproduct',id);
 }
 
 const  deleteLocal = async (id) => {
-    return Delete('products',{id:id});
+    return query.Delete('bigcommerceproduct',id);
 }
-module.exports ={ createLocal,
+
+const productService={ 
+    createLocal,
     updateLocal,
     getAllProduct,
     getDataById,
     deleteLocal
 };
-
+module.exports =productService;

@@ -1,12 +1,10 @@
 const { truncate, insert } = require("../../common/query");
-const { getDataById, getAllProduct, createLocal, updateLocal, deleteLocal } = require('../service/product')
+const productService = require('../service/product')
 const options = require('../../bigCommerce')
 var axios = require("axios");
-
 //  product CRUD on local
 const getProductByIdLocal = (req, res) => {
-
-    getDataById(req.body.id).then((data) => {
+    productService.getDataById(req.params.id).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -15,7 +13,7 @@ const getProductByIdLocal = (req, res) => {
 
 const createProductLocal = (req, res) => {
     // console.log(req.body);
-    createLocal(req.body).then((data) => {
+    productService.createLocal(req.body).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "Created successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -24,7 +22,7 @@ const createProductLocal = (req, res) => {
 
 const updateProductLocal = (req, res) => {
     // console.log(req.body);
-    updateLocal(req.body).then((data) => {
+    productService.updateLocal(req.body).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "updated successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -46,7 +44,7 @@ const getProductsLocal = (req, res) => {
         page_q = 0
         limit_q = 50
     }
-    getAllProduct(page_q, limit_q, term).then((data) => {
+    productService.getAllProduct(page_q, limit_q, term).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -54,7 +52,7 @@ const getProductsLocal = (req, res) => {
 };
 
 const deleteProductLocal = (req, res) => {
-    deleteLocal(req.body.id).then((data) => {
+    productService.deleteLocal(req.params.id).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "delete successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -127,6 +125,17 @@ const updateProductLive = (req, res) => {
 
 }
 
-const bigCProductCtrl = { createProductLive, deleteProductLive, getProductByIdLive, getDataFromAPi, updateProductLive }
-const local = { getProductsLocal, updateProductLocal, createProductLocal, getProductByIdLocal, deleteProductLocal }
-module.exports = { bigCProductCtrl, local }
+const bigCProductCtrl ={
+    createProductLive,
+    deleteProductLive,
+    getProductByIdLive, 
+    getDataFromAPi, 
+    updateProductLive 
+}
+const localProductCtrl ={
+    getProductsLocal, 
+    updateProductLocal, 
+    createProductLocal, 
+    getProductByIdLocal, 
+    deleteProductLocal }
+module.exports = { bigCProductCtrl, localProductCtrl }

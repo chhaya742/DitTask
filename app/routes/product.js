@@ -1,14 +1,16 @@
 // const {getProduct,getDataFromAPi,createProduct, getProductById,deleteProduct,updateProduct} = require('../ctrl/student');
-const { bigCProductCtrl,local}=require('../ctrl/product');
+const { bigCProductCtrl,localProductCtrl}=require('../ctrl/product');
 const isValid=require("../../Middleware/validation")
 module.exports = (router)=>{
 
-router.get('/product/getAll', local.getProductsLocal);
-router.delete('/product/deleteLocal', local.deleteProductLocal);
-router.post('/product/createLocal', local.createProductLocal);
-router.put('/product/updateLocal', local.updateProductLocal);
-router.get('/product/getByIdLo', local.getProductByIdLocal);
+// Local
+router.get('/product/getAll', localProductCtrl.getProductsLocal);
+router.delete('/product/deleteLocal/:id', localProductCtrl.deleteProductLocal);
+router.post('/product/createLocal', localProductCtrl.createProductLocal);
+router.put('/product/updateLocal', localProductCtrl.updateProductLocal);
+router.get('/product/getByIdLo/:id', localProductCtrl.getProductByIdLocal);
 
+// Live
 router.post('/product/create', bigCProductCtrl.createProductLive);
 router.get('/product/list', bigCProductCtrl.getDataFromAPi);
 router.delete('/product/delete', bigCProductCtrl.deleteProductLive);

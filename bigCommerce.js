@@ -111,7 +111,7 @@
 
 const productUrl=( method,params,data)=> ({
   method: method,
-  url: 'https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products'+params,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products`+params,
   params: {include: 'custom_fields'},
   headers: {
     'Content-Type': 'application/json',
@@ -143,21 +143,20 @@ const productOptionByIdUrl=( method,params,data)=> ({
 
 const categoryUrl=( method,params,data)=> ({
     method: method,
-    url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories${params}`,
-    // params: {'category_id:in': '27'},
+    url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`+params,
     headers: {
       'Content-Type': 'application/json',
       'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
     },data:data
 });
-const categoryDeleteUrl=( method,params,data)=> ({
+const categoryByIdUrl=( method,params,data)=> ({
     method: method,
-    url: 'https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/trees/categories',
-    params: {'category_id:in': params},
+    url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`,
+    params: {'id:in': params},
     headers: {
       'Content-Type': 'application/json',
       'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
-    },data:data
+    },data:[data]
 });
 
 var customFieldUrl = ( method,params,data)=> ({
@@ -187,7 +186,7 @@ var customFieldIdurl=(method,params,data)=>(
 module.exports=options={
   productUrl,
   categoryUrl,
-  categoryDeleteUrl,
+  categoryByIdUrl,
   customFieldUrl,
   customFieldIdurl,
   productOptionUrl,

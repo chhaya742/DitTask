@@ -1,40 +1,65 @@
 const {truncate,insert} = require("../../common/query");
-
+const categoryService=require("../service/category")
 const options=require('../../bigCommerce');
 var axios = require("axios");
 const { response } = require("express");
 
 
 //  Category CRUD on local
-const getCategoryByIdLocal = (req, res) => {
 
-  getDataById(req.body.id).then((data) => {
-      res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
-  }).catch((err) => {
-      res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
-  })
+const getCategoryListLocal = (req, res) => {
+    let page_q = req.query.page
+    let limit_q = req.query.limit
+    let query_string = req.query.query_string
+    term = "%" + query_string + "%";
+    // console.log(term);
+    if (page_q && limit_q) {
+        page_q = parseInt(page_q)
+        limit_q = parseInt(limit_q)
+        page_q = (page_q * limit_q - limit_q)
+    }
+    else {
+        page_q = 0
+        limit_q = 50
+    }
+    categoryService.getAll(page_q, limit_q, term).then((data) => {
+        res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
+    }).catch((err) => {
+        res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+    })
+
 };
 
 const createCategoryLocal = (req, res) => {
   // console.log(req.body);
-  createLocal(req.body).then((data) => {
+  categoryService.createLocal(req.body).then((data) => {
       res.json({ status: true, statusCode: 200, messages: "Created successfully", data: data })
+      console.log(data);
   }).catch((err) => {
       res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+      console.log(err);
   })
 };
 
 const updateCategoryLocal = (req, res) => {
   // console.log(req.body);
-  updateLocal(req.body).then((data) => {
+  categoryService.updateLocal(req.body,req.params.id).then((data) => {
       res.json({ status: true, statusCode: 200, messages: "updated successfully", data: data })
   }).catch((err) => {
       res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
   })
 }
 
+  const getCategoryByIdLocal = (req, res) => {
+    categoryService.getDataById(req.params.id).then((data) => {
+        res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
+    }).catch((err) => {
+        res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+    })
+};
+
 const deleteCategoryLocal = (req, res) => {
-  deleteLocal(req.body.id).then((data) => {
+  categoryService.deleteLocal(req.params.id).then((data) => {
       res.json({ status: true, statusCode: 200, messages: "delete successfully", data: data })
   }).catch((err) => {
       res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -66,30 +91,12 @@ const getCategoryFromAPi=(req,res)=>{
 }
 
 const getCategoryByIdLive=(req,res)=>{
-
-  // var options = {
-  //   method: 'GET',
-  //   url: 'https://api.bigcommerce.com/stores/71ukaf4yd0/v3/catalog/categories/20',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
-  //   }
-  // };
-  console.log(req.body.category_id);
-  axios.request(options.categoryUrl('GET',`/${req.body.category_id}`,[])).then(function (response) {
-    console.log(response.data);
+  // console.log(req.params.id);
+  axios.request(options.categoryByIdUrl('GET',req.params.id,[])).then(function (response) {
     res.json(response.data)
   }).catch(function (error) {
-    // console.error(error);
     res.send(error)
   });
-
-//   axios.request(options.categoryUrl('GET',`/${req.params.id}`,[])).then(function (response) {
-//     res.send({ status: true, statusCode: 200, messages: "get successfully", data: response.data })
-//   }).catch(function (error) {
-//     console.error(error);
-//     res.send(error)
-//   });
 }
 
 const createCategoryLive = (req, res) => {
@@ -103,27 +110,36 @@ const createCategoryLive = (req, res) => {
 };
 
 const updateCategoryLive = (req, res) => {
-
-axios.request(options.categoryUrl('PUT','',req.body)).then(function (response) {
-  console.log(response.data);
+axios.request(options.categoryUrl('PUT',`/${req.params.id}`,req.body)).then(function (response) {
   res.json(response.data)
 }).catch(function (error) {
-  console.error(error);
   res.send(error)
+  console.log(error);
 });
 }
 
 const deleteCategoryLive= (req, res) => {
-  // console.log(req.body.category_id);
-  axios.request(options.categoryDeleteUrl('DELETE',`${req.body.category_id}`,[])).then(function (response) {
+  const params=req.params.id
+  axios.request(options.categoryByIdUrl('DELETE',params,[])).then(function (response) {
       res.send({ status: true, statusCode: 200, messages: "delete successfully", data: response.data })
-      // console.log(response.data);
   }).catch(function (error) {
-      // console.error(error);
       res.send(error);
+      console.error(error);
   });
 
 }
-const bigCCategoryCtrl={getCategoryFromAPi,createCategoryLive,deleteCategoryLive,updateCategoryLive,getCategoryByIdLive}
-const Categorylocal={ createCategoryLocal,updateCategoryLocal,getCategoryByIdLocal,deleteCategoryLocal}
-module.exports ={bigCCategoryCtrl,Categorylocal}
+const bigCCategoryCtrl={
+  getCategoryFromAPi,
+  createCategoryLive,
+  deleteCategoryLive,
+  updateCategoryLive,
+  getCategoryByIdLive
+}
+const CategorylocalCtrl={
+  getCategoryListLocal,
+  getCategoryByIdLocal,
+  updateCategoryLocal,
+  createCategoryLocal,
+  deleteCategoryLocal
+}
+module.exports ={bigCCategoryCtrl,CategorylocalCtrl}
