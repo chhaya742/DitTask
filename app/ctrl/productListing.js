@@ -1,6 +1,5 @@
 const knex=require("../../database/config");
 
-
 // module.exports=async function homeCategoriesListing(req, res, next) {
 //     let { offset, limit, order, sort, search, status } = req.body;
 //     // console.log(search,status);
