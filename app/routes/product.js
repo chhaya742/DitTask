@@ -13,7 +13,7 @@ router.get('/product/getByIdLo/:id', localProductCtrl.getProductByIdLocal);
 // Live
 router.post('/product/create', bigCProductCtrl.createProductLive);
 router.get('/product/list', bigCProductCtrl.getDataFromAPi);
-router.delete('/product/delete', bigCProductCtrl.deleteProductLive);
+router.delete('/product/delete/:id', bigCProductCtrl.deleteProductLive);
 router.get('/product/getById/:id', bigCProductCtrl.getProductByIdLive);
 router.put('/product/update/:id', bigCProductCtrl.updateProductLive);
 }

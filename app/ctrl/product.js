@@ -104,7 +104,7 @@ const getProductByIdLive = (req, res) => {
 
 
 const deleteProductLive = (req, res) => {
-    axios.request(options.productUrl('DELETE', `?id:in=${req.body.id}`, [])).then(function (response) {
+    axios.request(options.productUrl('DELETE', `?id:in=${req.params.id}`, [])).then(function (response) {
         res.send({ status: true, statusCode: 200, messages: "delete successfully", data: response.data })
         // console.log(response.data);
     }).catch(function (error) {
