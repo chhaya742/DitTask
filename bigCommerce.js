@@ -91,7 +91,7 @@
 //         headers: {
 //             'Content-Type': 'application/json',
 //             Accept: 'application/json',
-//             'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+//             'X-Auth-Token': process.env.Token
 //         },
 //         data: req.body
 //         };
@@ -116,7 +116,7 @@ const productUrl=( method,params,data)=> ({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    'X-Auth-Token': process.env.Token
   },data:data
 });
 
@@ -126,7 +126,7 @@ const productOptionUrl=( method,params,data)=> ({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    'X-Auth-Token': process.env.Token
   },data:data
 });
 
@@ -136,7 +136,7 @@ const productOptionByIdUrl=( method,params,data)=> ({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    'X-Auth-Token': process.env.Token
   },data:data
 });
 
@@ -146,7 +146,7 @@ const categoryUrl=( method,params,data)=> ({
     url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`+params,
     headers: {
       'Content-Type': 'application/json',
-      'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+      'X-Auth-Token': process.env.Token
     },data:data
 });
 const categoryByIdUrl=( method,params,data)=> ({
@@ -155,7 +155,7 @@ const categoryByIdUrl=( method,params,data)=> ({
     params: {'id:in': params},
     headers: {
       'Content-Type': 'application/json',
-      'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+      'X-Auth-Token': process.env.Token
     },data:[data]
 });
 
@@ -165,7 +165,7 @@ var customFieldUrl = ( method,params,data)=> ({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+    'X-Auth-Token': process.env.Token
   },data:data
 });
 
@@ -176,7 +176,7 @@ var customFieldIdurl=(method,params,data)=>(
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      'X-Auth-Token': '8oedv47jgeu55xyfj34xbi9v84ifjrh'
+      'X-Auth-Token': process.env.Token
     },data:data
 } 
 );

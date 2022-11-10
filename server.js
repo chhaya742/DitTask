@@ -9,7 +9,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-const port =3000
+const port =process.env.port
 const fs = require("fs")
 const path = require('path');
 const directoryPath = path.join(__dirname, 'app/routes');
