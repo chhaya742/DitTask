@@ -1,6 +1,6 @@
 
 const knex = require("../database/config")
-
+require("../database/schema/user")
 const findAll = async (tableName, params) => {
     const data = await knex.select('*').from(tableName)
         .where('name', 'like', `%${params.term}%`)
@@ -24,6 +24,13 @@ const getbyId = async (tableName, id, productId) => {
     } else {
         return await knex.select('*').from(tableName).where(id).andWhere(productId)
     }
+}
+
+
+const login = async (tableName,email,pass) => {
+    
+        return await knex.select('*').from(tableName).where(email).andWhere(pass)
+    
 }
 
 const update = async (tableName, userData, id,productId) => {
@@ -54,7 +61,8 @@ const query = {
     getbyId,
     update,
     Delete,
-    truncate
+    truncate,
+    login
 }
 
 

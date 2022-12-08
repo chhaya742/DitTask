@@ -60,6 +60,17 @@ const deleteProductLocal = (req, res) => {
 };
 
 // create bigCommerce Product CRUD
+const kapivaProductList=(req,res)=>{
+    axios.request(options.kapivaUrl('POST', '', {"product_id":req.params.id})).then((response)=> {
+        res.json( "response")
+        console.log(response);
+    }).catch(function (error) {
+        console.error(error);
+        res.send(error)
+    });
+
+}
+
 const getDataFromAPi = (req, res) => {
     axios.request(options.productUrl('GET', '', [])).then(function (response) {
         for (i in response.data.data) {
@@ -130,7 +141,8 @@ const bigCProductCtrl ={
     deleteProductLive,
     getProductByIdLive, 
     getDataFromAPi, 
-    updateProductLive 
+    updateProductLive ,
+    kapivaProductList
 }
 const localProductCtrl ={
     getProductsLocal, 

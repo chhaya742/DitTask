@@ -5,6 +5,8 @@
 // const axios = require('axios')
 // const port = process.env.port
 
+const { method } = require("lodash");
+
 // const url = 'https://newsapi.org/v2/everything?q=tesla&from=2022-10-01&sortBy=publishedAt&apiKey=19cab6cf726f4b64b820fa4163544700'
 
 // app.get("/", async (req, res) => {
@@ -95,7 +97,7 @@
 //         },
 //         data: req.body
 //         };
-        
+
 //     axios.request(options).then(function (response) {
 //         // console.log(response.data);
 //         res.json(response.data)
@@ -108,68 +110,88 @@
 //     console.log(`server is runnig on ${port} port`);
 // });
 
+const kapivaUrl = (method, params, data) => ({
 
-const productUrl=( method,params,data)=> ({
+  url: 'https://stg-dashboard.kapiva.in/kapiva/get_product_details',
   method: method,
-  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products`+params,
-  params: {include: 'custom_fields'},
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'X-Auth-Token': 'q0ex4j245izp6b4i9iqkcnsyu95jnbo'
+  },
+  data: data
+
+  // method: method,
+  // url: `https://stg-dashboard.kapiva.in/kapiva/get_product_details`+ params,
+  // headers: {
+  //   'Content-Type': 'application/json',
+  //   Accept: 'application/json',
+  //   'X-Auth-Token':'q0ex4j245izp6b4i9iqkcnsyu95jnbo'
+  // },
+  // data: data
+})
+const productUrl = (method, params, data) => ({
+  method: method,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products` + params,
+  params: { include: 'custom_fields' },
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Auth-Token': process.env.Token
-  },data:data
+  },
+  data: data
 });
 
-const productOptionUrl=( method,params,data)=> ({
+const productOptionUrl = (method, params, data) => ({
   method: method,
-  url:`https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params}/options`,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params}/options`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Auth-Token': process.env.Token
-  },data:data
+  }, data: data
 });
 
-const productOptionByIdUrl=( method,params,data)=> ({
+const productOptionByIdUrl = (method, params, data) => ({
   method: method,
-  url:`https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params.productId}/options/${params.optionId}`,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params.productId}/options/${params.optionId}`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Auth-Token': process.env.Token
-  },data:data
+  }, data: data
 });
 
 
-const categoryUrl=( method,params,data)=> ({
-    method: method,
-    url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`+params,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Auth-Token': process.env.Token
-    },data:data
+const categoryUrl = (method, params, data) => ({
+  method: method,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories` + params,
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': process.env.Token
+  }, data: data
 });
-const categoryByIdUrl=( method,params,data)=> ({
-    method: method,
-    url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`,
-    params: {'id:in': params},
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Auth-Token': process.env.Token
-    },data:[data]
+const categoryByIdUrl = (method, params, data) => ({
+  method: method,
+  url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/categories`,
+  params: { 'id:in': params },
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': process.env.Token
+  }, data: [data]
 });
 
-var customFieldUrl = ( method,params,data)=> ({
+var customFieldUrl = (method, params, data) => ({
   method: method,
   url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params}/custom-fields`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Auth-Token': process.env.Token
-  },data:data
+  }, data: data
 });
 
-var customFieldIdurl=(method,params,data)=>(
+var customFieldIdurl = (method, params, data) => (
   {
     method: method,
     url: `https://api.bigcommerce.com/stores/${process.env.store_hash}/v3/catalog/products/${params.productId}/custom-fields/${params.customFieldId}`,
@@ -177,19 +199,20 @@ var customFieldIdurl=(method,params,data)=>(
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'X-Auth-Token': process.env.Token
-    },data:data
-} 
+    }, data: data
+  }
 );
 
 
 
-module.exports=options={
+module.exports = options = {
   productUrl,
   categoryUrl,
   categoryByIdUrl,
   customFieldUrl,
   customFieldIdurl,
   productOptionUrl,
-  productOptionByIdUrl
+  productOptionByIdUrl,
+  kapivaUrl
 }
 

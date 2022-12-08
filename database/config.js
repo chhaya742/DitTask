@@ -11,7 +11,7 @@ const knex = require('knex')({
     port :3306,
     user :'root',
     password :'Chhaya@123',
-    database:'bigcommerce'
+    database:'inotebook'
     }
   })
  module.exports=knex; 

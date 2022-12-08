@@ -11,6 +11,7 @@ router.delete('/productOption/deleteLocal/:productId/:optionId',productOptionloc
 router.get('/productOption/getByIdLocal/:productId/:optionId', productOptionlocalCtrl.getProductOptionByIdLocal);
 
 // Live
+
 router.get('/productOption/list/:id', productOptionCtrl.getProductOptionList);
 router.post('/productOption/create/:id', productOptionCtrl.createProductOptionLive);
 router.put('/productOption/update/:productId/:optionId', productOptionCtrl.updateProductOptionLive);

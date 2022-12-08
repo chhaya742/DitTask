@@ -93,6 +93,9 @@ const getProductOptionList = (req, res) => {
       });
 }
 
+
+
+
 const getProductOptionByID = (req, res) => {
     const params={productId:req.params.productId,optionId:req.params.optionId}
     axios.request(options.productOptionByIdUrl('GET', params, [])).then(function (response) {
@@ -152,5 +155,6 @@ const productOptionlocalCtrl={
     updateProductOptionLocal,
     getProductOptionByIdLocal,
     deleteProductOptionLocal
+    
   }
 module.exports={productOptionCtrl,productOptionlocalCtrl}
