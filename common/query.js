@@ -27,6 +27,12 @@ const getbyId = async (tableName, id, productId) => {
 }
 
 
+const usergetbyId = async (tableName, id, ) => {
+ 
+        return await knex.select('*').from(tableName).where(id)
+   
+}
+
 const login = async (tableName,email,pass) => {
     
         return await knex.select('*').from(tableName).where(email).andWhere(pass)
@@ -62,7 +68,8 @@ const query = {
     update,
     Delete,
     truncate,
-    login
+    login,
+    usergetbyId
 }
 
 

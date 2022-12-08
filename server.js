@@ -12,8 +12,14 @@ app.use(bodyParser.json())
 const port =process.env.port
 const fs = require("fs")
 const path = require('path');
-const cors=require("cors")
-app.use(cors)
+const cors=require("cors");
+const corsOptions ={
+   origin:'localhost:5000/', 
+   credentials:true,           
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 const directoryPath = path.join(__dirname, 'app/routes');
 const files = (router) =>{
   
@@ -27,7 +33,11 @@ files(router)
 
 app.use("/",router)
 
+app.get("/",()=>{
+console.log(`server is runnig on ${port} port`);
+})
 
-app.listen(port, () => {
+app.listen(port, (req,res) => {
     console.log(`server is runnig on ${port} port`);
+
 });

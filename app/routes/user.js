@@ -6,7 +6,8 @@ module.exports = (router)=>{
 // router.delete('/product/deleteLocal/:id', localProductCtrl.deleteProductLocal);
 router.post('/user/create', userCtrl.createUser);
 router.post('/user/login', userCtrl.loginUser);
+router.get('/user/getById/:id', userCtrl.getUserbyId);
 
 // router.put('/product/updateLocal', localProductCtrl.updateProductLocal);
-// router.get('/product/getByIdLo/:id', localProductCtrl.getProductByIdLocal);
+
 }

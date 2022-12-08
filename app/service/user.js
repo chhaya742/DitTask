@@ -27,7 +27,7 @@ const  getAllUsers = async (page_q,limit_q,term) => {
 
 // Get By Id
 const  getUserById = async (id) => {
-    return query.getbyId('user',id);
+    return query.usergetbyId('user',{"id":id});
 }
 
 const  deleteUser= async (id) => {

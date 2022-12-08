@@ -3,7 +3,7 @@ const userService = require('../service/user')
 
 //  user CRUD on local
 const getUserbyId = (req, res) => {
-    userService.getDataById(req.params.id).then((data) => {
+    userService.getUserById(req.params.id).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -23,8 +23,10 @@ const loginUser=(req,res)=>{
     console.log(req.body);
     userService.loginuser(req.body).then((data)=>{
         res.json({ status: true, statusCode: 200, messages: "login successfully", data: data })
+        console.log({ status: true, statusCode: 200, messages: "login successfully", data: data });
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+        console.log({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] });
     })
 
 }
