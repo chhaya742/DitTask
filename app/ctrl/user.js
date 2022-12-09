@@ -26,7 +26,7 @@ const loginUser=(req,res)=>{
         console.log({ status: true, statusCode: 200, messages: "login successfully", data: data });
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
-        console.log({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] });
+        console.log({ status: false, statusCode: 404, messages: err, data: [] });
     })
 
 }

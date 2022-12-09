@@ -7,7 +7,8 @@ const  createUser = async (userData) => {
 
 
 const  loginuser= async (userData) => {
-    return query.login('user', {"email":userData.email},{"password":userData.password});
+    console.log(userData.Email);
+    return query.login('user', {"Email":userData.Email},{"password":userData.password});
 }
 
 // Update

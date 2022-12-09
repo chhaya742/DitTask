@@ -12,14 +12,17 @@ app.use(bodyParser.json())
 const port =process.env.port
 const fs = require("fs")
 const path = require('path');
-const cors=require("cors");
-const corsOptions ={
-   origin:'localhost:5000/', 
-   credentials:true,           
-   optionSuccessStatus:200,
-}
+// const cors=require("cors");
+// const corsOptions ={
+//    origin:'http://localhost:3000/', 
+//    credentials:true,           
+//    optionSuccessStatus:200,
+// }
+// app.use(cors(corsOptions))
+var cors = require('cors');
+app.use(cors());
 
-app.use(cors(corsOptions))
+
 const directoryPath = path.join(__dirname, 'app/routes');
 const files = (router) =>{
   
