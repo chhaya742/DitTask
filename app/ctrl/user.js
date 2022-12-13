@@ -1,4 +1,4 @@
-
+'use strict'
 const userService = require('../service/user')
 
 //  user CRUD on local
@@ -13,22 +13,27 @@ const getUserbyId = (req, res) => {
 const createUser = (req, res) => {
     console.log(req.body);
     userService.createUser(req.body).then((data) => {
-        res.json({ status: true, statusCode: 200, messages: "Created successfully", data: data })
+        if(data){
+            
+            res.cookie("user", data[1].token);
+            res.json({ status: true, statusCode: 200, messages: "Created successfully", data: data });
+        }
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
-    })
+    });
 };
 
-const loginUser=(req,res)=>{
-    console.log(req.body);
-    userService.loginuser(req.body).then((data)=>{
-        res.json({ status: true, statusCode: 200, messages: "login successfully", data: data })
-        console.log({ status: true, statusCode: 200, messages: "login successfully", data: data });
+const loginUser = (req, res) => {
+    userService.loginuser(req.body).then((data) => {
+        if (data != undefined && data.data) {
+            res.cookie("user", data.data.token)
+            res.json(data);
+        } else {
+            res.send(data);
+        }
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
-        console.log({ status: false, statusCode: 404, messages: err, data: [] });
-    })
-
+    });
 }
 
 const updateUser = (req, res) => {
@@ -70,12 +75,18 @@ const deleteUser = (req, res) => {
     })
 };
 
+const userLogout=(req,res)=>{
+    res.clearCookie("user")
+    res.json({message:"logout success"})
+}
 
-const userCtrl ={
-    getUserbyId, 
-    createUser, 
-    updateUser, 
-    getallUsers, 
+const userCtrl = {
+    getUserbyId,
+    createUser,
+    updateUser,
+    getallUsers,
     deleteUser,
-    loginUser }
-module.exports = {userCtrl}
+    loginUser,
+    userLogout
+}
+module.exports = { userCtrl };

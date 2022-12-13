@@ -1,9 +1,10 @@
 
-const knex = require("../database/config")
-require("../database/schema/user")
+const knex = require("../database/config");
+require("../database/schema/notes");
+
 const findAll = async (tableName, params) => {
     const data = await knex.select('*').from(tableName)
-        .where('name', 'like', `%${params.term}%`)
+        .where('Title', 'like', `%${params.term}%`)
         .limit(params.limit).offset(params.page)
     // .toString()
     // console.log(data);
@@ -27,19 +28,19 @@ const getbyId = async (tableName, id, productId) => {
 }
 
 
-const usergetbyId = async (tableName, id, ) => {
- 
-        return await knex.select('*').from(tableName).where(id)
-   
+const usergetbyId = async (tableName, id,) => {
+
+    return await knex.select('*').from(tableName).where(id)
+
 }
 
-const login = async (tableName,email,pass) => {
-    
-        return await knex.select('*').from(tableName).where(email).andWhere(pass)
-    
+const login = async (tableName, email, pass) => {
+
+    return await knex.select('*').from(tableName).where(email).andWhere(pass)
+
 }
 
-const update = async (tableName, userData, id,productId) => {
+const update = async (tableName, userData, id, productId) => {
     if (productId == '' || productId == undefined) {
         await knex.update(userData).from(tableName).where(id)
     } else {
@@ -47,11 +48,14 @@ const update = async (tableName, userData, id,productId) => {
     }
 }
 
-const Delete = async (tableName, id,productId) => {
+const update1 = async (tableName, userData, id) => {
+    return await knex.update(userData).from(tableName).where(id)
+}
+const Delete = async (tableName, id, productId) => {
     if (productId.product_id == '' || productId.product_id == undefined) {
-        return  await knex(tableName).where( id ).delete()
+        return await knex(tableName).where(id).delete()
     } else {
-        return await knex(tableName).where( id ).andWhere(productId).delete()
+        return await knex(tableName).where(id).andWhere(productId).delete()
     }
 }
 
@@ -69,7 +73,8 @@ const query = {
     Delete,
     truncate,
     login,
-    usergetbyId
+    usergetbyId,
+    update1
 }
 
 
