@@ -26,7 +26,6 @@ const updateNote = (req, res) => {
     });
 };
 
-
 const getNoteList = (req, res) => {
     let page_q = req.query.page
     let limit_q = req.query.limit
@@ -50,18 +49,41 @@ const getNoteList = (req, res) => {
 };
 
 const deleteNote = (req, res) => {
-    notesService.deleteLocal(req.params.id).then((data) => {
+    notesService.deletenote(req.params.id).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "delete successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
     })
 };
 
+const getUserNotes = (req, res) => {
+    let page_q = req.body.page
+    let limit_q = req.body.limit
+    let query_string = req.body.query_string
+    term = "%" + query_string + "%";
+    // console.log(term);
+    if (page_q && limit_q) {
+        page_q = parseInt(page_q)
+        limit_q = parseInt(limit_q)
+        page_q = (page_q * limit_q - limit_q)
+    }
+    else {
+        page_q = 0
+        limit_q = 50
+    }
+    notesService.getUsernotes(req.body.user_id,page_q, limit_q, term).then((data) => {
+        res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
+    }).catch((err) => {
+        console.log(err);
+        res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+    })
+};
 
 const notesCtrl = {
     createNote,
     updateNote,
     getNoteList,
     deleteNote,
+    getUserNotes
 }
 module.exports = { notesCtrl };
