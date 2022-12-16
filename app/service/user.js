@@ -30,8 +30,8 @@ const loginuser = async (userData) => {
 }
 
 // Update
-const updateUser = async (userData) => {
-    return query.update('user', userData, { id: userData.id });
+const updateuser = async (userData) => {
+    return query.update1('user', userData, { id: userData.id });
 }
 // GetAll
 const getAllUsers = async (page_q, limit_q, term) => {
@@ -56,7 +56,7 @@ const deleteUser = async (id) => {
 const userService = {
     createUser,
     loginuser,
-    updateUser,
+    updateuser,
     getAllUsers,
     getUserById,
     deleteUser

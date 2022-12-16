@@ -38,7 +38,7 @@ const loginUser = (req, res) => {
 
 const updateUser = (req, res) => {
     // console.log(req.body);
-    userService.updateLocal(req.body).then((data) => {
+    userService.updateuser(req.body).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "updated successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
