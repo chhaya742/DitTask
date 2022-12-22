@@ -15,7 +15,8 @@ const createNote = (req, res) => {
 };
 
 const updateNote = (req, res) => {
-    notesService.updatenote(req.params.id,req.body).then((data) => {
+    console.log(req.body);
+    notesService.updatenote(req.body).then((data) => {
         if (data != undefined && data.data) {
              res.json( data )
         } else {
@@ -49,7 +50,8 @@ const getNoteList = (req, res) => {
 };
 
 const deleteNote = (req, res) => {
-    notesService.deletenote(req.params.id).then((data) => {
+    console.log(req.body.id);
+    notesService.deletenote(req.body.id).then((data) => {
         res.json({ status: true, statusCode: 200, messages: "delete successfully", data: data })
     }).catch((err) => {
         res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
@@ -79,11 +81,21 @@ const getUserNotes = (req, res) => {
     })
 };
 
+const noteGetById=(req,res)=>{
+    console.log(req.body.id);
+    notesService.getById(req.body.id).then((data) => {
+        res.json({ status: true, statusCode: 200, messages: "get successfully", data: data })
+    }).catch((err) => {
+        res.json({ status: false, statusCode: 404, messages: err.sqlMessage, data: [] })
+    })
+}
+
 const notesCtrl = {
     createNote,
     updateNote,
     getNoteList,
     deleteNote,
-    getUserNotes
+    getUserNotes,
+    noteGetById
 }
 module.exports = { notesCtrl };
