@@ -1,6 +1,6 @@
 
 const notesService = require('../service/notes')
-
+require("../../database/schema/notes")
 //  notes CRUD on local
 
 const createNote = (req, res) => {
