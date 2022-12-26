@@ -8,8 +8,12 @@ const creatRole = async (userData) => {
     return data;
 }
 
+const getrole=async(id)=>{
+    let data=await query.getbyId('role',{id:id},'');
+    return data;
+}
 
 const userService = {
-    creatRole
+    creatRole,getrole
 };
 module.exports = userService;

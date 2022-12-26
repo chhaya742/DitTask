@@ -10,5 +10,13 @@ console.log(err);
     })
 }
 
-const roleCtrl={addRole}
+
+const getRole=(req,res)=>{
+    roleService.getrole(req.body.id).then((result)=>{
+        res.send(result);
+    }).catch((err)=>{
+        res.send(err)
+    })
+}
+const roleCtrl={addRole,getRole}
 module.exports={roleCtrl}
