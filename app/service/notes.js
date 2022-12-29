@@ -9,8 +9,8 @@ const createnotes = async (userData) => {
 }
 
 
-const updatenote = async (id,userData) => {
-    var data =await query.update1('notes',userData, { "id": id});
+const updatenote = async (userData) => {
+    var data =await query.update1('notes',userData, { "id": userData.id});
     let result = await query.usergetbyId('notes', { "id": data});
     if (result) {
         return ({ status: true, statusCode: 200, messages: "update successfully", data: result });
@@ -36,7 +36,8 @@ const getUserById = async (id) => {
 };
 
 const deletenote = async (id) => {
-    return query.Delete('notes', id);
+    console.log(id);
+    return query.Delete('notes', {id:id},"");
 };
 
 
@@ -52,6 +53,11 @@ const getUsernotes = async (id,page_q, limit_q, term) => {
 return data
     
 };
+
+const getById=async(id)=>{
+    console.log(id);
+    return query.getbyId('notes', {id:id},"");
+}
 const userService = {
     createnotes,
     updatenote,
@@ -59,5 +65,6 @@ const userService = {
     getUserById,
     deletenote,
     getUsernotes,
+    getById
 };
 module.exports = userService;

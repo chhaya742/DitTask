@@ -1,5 +1,6 @@
 'use strict'
 const userService = require('../service/user')
+require("../../database/schema/user")
 
 //  user CRUD on local
 const getUserbyId = (req, res) => {
